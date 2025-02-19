@@ -3,9 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -44,6 +47,47 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function boot()
+    {
+        //on load get the user status by running a number of if statements
+        parent::boot();
+        static::retrieved(function ($user) {
+            if ($user->email_verified_at == null) {
+                $user->status = 'Unverified';
+                return;
+            }
+            if (
+                $user->whereHas('orders', function ($query) {
+                    $query->where('created_at', '>=', Carbon::now()->subMonth());
+                }, '>', 5)
+                ->count() > 0
+            ) {
+                $user->status = 'Active';
+                return;
+            }
+            if (
+                $user->whereNotNull('email_verified_at')
+                ->where('user_type', 'admin')
+                ->whereDoesntHave('orders')
+                ->count() > 0
+            ) {
+                $user->status = 'Verified Without Orders';
+                return;
+            }
+            if (
+                $user->whereNotNull('email_verified_at')
+                ->where('user_type', 'admin')
+                ->whereHas('orders', function ($query) {
+                    $query->havingRaw('COUNT(*) = 1');
+                }, '=', 1)
+                ->count() > 0
+            ) {
+                $user->status = 'One Time Order Only';
+                return;
+            }
+        });
     }
 
     public function orders()
@@ -86,7 +130,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Customer');
     }
 
-    public function app_settings()
+    public function appSetting()
     {
         return $this->hasOne('App\Models\Setting');
     }

@@ -17,6 +17,7 @@ if (! function_exists('divnum')) {
         return $denominator == 0 ? 0 : ($numerator / $denominator);
     }
 }
+function getCountryFromCurrency($currency) {}
 function removeSpaces($inputString)
 {
     return str_replace(' ', '', $inputString);

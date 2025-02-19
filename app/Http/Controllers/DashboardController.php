@@ -23,6 +23,7 @@ class DashboardController extends Controller
             //'oneTimeUsersCount' => $this->userKPIService->getOneTimeUsersCount(),
             'verifiedWithOrdersCount' => $this->userKPIService->getActiveUsersCount(), //active users
             'mrr' => $this->userKPIService->getMrr(), //MRR
+            //ARR
         ]);
     }
 }
