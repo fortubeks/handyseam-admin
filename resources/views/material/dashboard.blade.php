@@ -51,7 +51,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <a href="{{ route('users.index', ['status' => 'verified']) }}" class="text-decoration-none">
+            <a href="{{ route('users.index', ['filter' => 'active']) }}" class="text-decoration-none">
 
                 <div class="card">
                     <div class="card-header p-2 ps-3">

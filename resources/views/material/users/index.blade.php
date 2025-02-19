@@ -6,7 +6,17 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">{{$title ?? '-'}} table</h6>
+                        <h6 class="text-white text-capitalize ps-3">{{$title ?? 'Users '}} table</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="col-4 ms-md-auto pe-md-3 d-flex align-items-center">
+                        <form id="userSearchForm" action="{{ route('user.search') }}" method="GET">
+                            <div class="input-group input-group-outline">
+                                <label class="form-label">Search by email here...</label>
+                                <input name="email" type="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="userSearchInput">
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2">
@@ -82,5 +92,12 @@
 @endsection
 
 <script>
-    window.addEventListener('load', function() {});
+    window.addEventListener('load', function() {
+        $('#userSearchInput').on('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                $('#userSearchForm').submit();
+            }
+        });
+    });
 </script>
