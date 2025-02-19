@@ -26,6 +26,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $appends = ['status'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -49,45 +51,70 @@ class User extends Authenticatable
         ];
     }
 
-    protected static function boot()
+    // protected static function boot()
+    // {
+    //     //on load get the user status by running a number of if statements
+    //     parent::boot();
+    //     static::retrieved(function ($user) {
+    //         if ($user->email_verified_at == null) {
+    //             $user->status = 'Unverified';
+    //             return;
+    //         }
+    //         if (
+    //             $user->whereHas('orders', function ($query) {
+    //                 $query->where('created_at', '>=', Carbon::now()->subMonth());
+    //             }, '>', 5)
+    //             ->count() > 0
+    //         ) {
+    //             $user->status = 'Active';
+    //             return;
+    //         }
+    //         if (
+    //             $user->whereNotNull('email_verified_at')
+    //             ->where('user_type', 'admin')
+    //             ->whereDoesntHave('orders')
+    //             ->count() > 0
+    //         ) {
+    //             $user->status = 'Verified Without Orders';
+    //             return;
+    //         }
+    //         if (
+    //             $user->whereNotNull('email_verified_at')
+    //             ->where('user_type', 'admin')
+    //             ->whereHas('orders', function ($query) {
+    //                 $query->havingRaw('COUNT(*) = 1');
+    //             }, '=', 1)
+    //             ->count() > 0
+    //         ) {
+    //             $user->status = 'One Time Order Only';
+    //             return;
+    //         }
+    //     });
+    // }
+
+    public function getStatusAttribute()
     {
-        //on load get the user status by running a number of if statements
-        parent::boot();
-        static::retrieved(function ($user) {
-            if ($user->email_verified_at == null) {
-                $user->status = 'Unverified';
-                return;
-            }
-            if (
-                $user->whereHas('orders', function ($query) {
-                    $query->where('created_at', '>=', Carbon::now()->subMonth());
-                }, '>', 5)
-                ->count() > 0
-            ) {
-                $user->status = 'Active';
-                return;
-            }
-            if (
-                $user->whereNotNull('email_verified_at')
-                ->where('user_type', 'admin')
-                ->whereDoesntHave('orders')
-                ->count() > 0
-            ) {
-                $user->status = 'Verified Without Orders';
-                return;
-            }
-            if (
-                $user->whereNotNull('email_verified_at')
-                ->where('user_type', 'admin')
-                ->whereHas('orders', function ($query) {
-                    $query->havingRaw('COUNT(*) = 1');
-                }, '=', 1)
-                ->count() > 0
-            ) {
-                $user->status = 'One Time Order Only';
-                return;
-            }
-        });
+        // Check if the email is verified
+        if ($this->email_verified_at === null) {
+            return 'Unverified';
+        }
+
+        // Preloaded count from `withCount('orders')`
+        $orderCount = $this->orders_count ?? 0;
+
+        if ($orderCount > 5 && $this->orders()->where('created_at', '>=', Carbon::now()->subMonth())->exists()) {
+            return 'Active';
+        }
+
+        if ($orderCount === 0 && $this->user_type === 'admin') {
+            return 'Verified Without Orders';
+        }
+
+        if ($orderCount === 1) {
+            return 'One Time Order Only';
+        }
+
+        return 'Other';
     }
 
     public function orders()
