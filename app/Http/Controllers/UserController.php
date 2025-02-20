@@ -38,21 +38,20 @@ class UserController extends Controller
 
         $churnedDormantUsersCount = $userKPIService->getChurnedDormantUsers(); // 
         $inactiveDormantUsersCount = $userKPIService->getInactiveDormantUsers(); // inactive
-        $totalDormantUsers = $churnedDormantUsersCount + $inactiveDormantUsersCount;
+        $totalDormantUsersCount = $churnedDormantUsersCount + $inactiveDormantUsersCount;
 
         $unverifiedUsersCount = $userKPIService->getUnverifiedUsersCount(); // unverified users
 
-        $totalUsers = $totalDormantUsers + $activeUserCount + $unverifiedUsersCount;
+        $totalUsersCount = $totalDormantUsersCount + $activeUserCount + $unverifiedUsersCount;
 
         return view('material.users.dashboard', [
             'allUsersCount' => $userKPIService->getAllUsersCount(), //all users
             'unverifiedUsersCount' => $userKPIService->getUnverifiedUsersCount(),
             'churnedDormantUsersCount' => $churnedDormantUsersCount,
             'inactiveDormantUsersCount' => $inactiveDormantUsersCount,
-            'totalDormantUsers' => $totalDormantUsers,
+            'totalDormantUsersCount' => $totalDormantUsersCount,
             'activeUsersCount' => $activeUserCount,
-            'getVerifiedUsersWithoutOrdersCount' => $userKPIService->getVerifiedUsersWithoutOrdersCount(),
-            'totalUsers' => $totalUsers,
+            'totalUsersCount' => $totalUsersCount,
             'mrr' => $userKPIService->getMrr(),
         ]);
     }

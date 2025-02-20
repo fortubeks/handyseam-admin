@@ -68,7 +68,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="text-sm mb-0 text-capitalize">Slightly Dormant (Churned)</p>
-                                <h4 class="mb-0">{{ $churnedDormantUsers }}</h4>
+                                <h4 class="mb-0">{{ $churnedDormantUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -89,7 +89,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="text-sm mb-0 text-capitalize">Highly Dormant (1 order only)</p>
-                                <h4 class="mb-0">{{$inactiveDormantUsers}}</h4>
+                                <h4 class="mb-0">{{$inactiveDormantUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">leaderboard</i>
@@ -110,7 +110,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="text-sm mb-0 text-capitalize">Total Dormant Users. Sum of All</p>
-                                <h4 class="mb-0">{{$totalDormantUsers}}</h4>
+                                <h4 class="mb-0">{{$totalDormantUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -138,8 +138,8 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Just 1 Order </p>
-                                <h4 class="mb-0">{{ $getUnverifiedUsersCount }}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Unverified users </p>
+                                <h4 class="mb-0">{{ $unverifiedUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -168,7 +168,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="text-sm mb-0 text-capitalize">Total Users </p>
-                                <h4 class="mb-0">{{ $totalUsers }}</h4>
+                                <h4 class="mb-0">{{ $totalUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
