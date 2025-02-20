@@ -34,9 +34,9 @@ class UserController extends Controller
     {
         $userKPIService = new UserKPIService();
 
-        $slightlyDormantUsersCount = $userKPIService->slightlyDormantUsersCount();
-        $moderatelyDormantUsersCount = $userKPIService->moderatelyDormantUsersCount();
-        $highlyDormantUsersCount = $userKPIService->highlyDormantUsersCount();
+        $slightlyDormantUsersCount = $userKPIService->getSlightlyDormantUsersCount();
+        $moderatelyDormantUsersCount = $userKPIService->getModeratelyDormantUsersCount();
+        $highlyDormantUsersCount = $userKPIService->getHighlyDormantUsersCount();
         $totalDormantUsers = $slightlyDormantUsersCount + $moderatelyDormantUsersCount + $highlyDormantUsersCount;
 
         return view('material.users.dashboard', [
@@ -47,6 +47,8 @@ class UserController extends Controller
             'highlyDormantUsersCount' => $highlyDormantUsersCount,
             'totalDormantUsers' => $totalDormantUsers,
             'activeUsersCount' => $userKPIService->getActiveUsersCount(), //active users
+            'getOneTimeUsersCount' => $userKPIService->getOneTimeUsersCount(),
+            'getVerifiedUsersWithoutOrdersCount' => $userKPIService->getVerifiedUsersWithoutOrdersCount(),
             'mrr' => $userKPIService->getMrr(),
         ]);
     }

@@ -8,6 +8,9 @@
                 Check the active, dormant and inactive users.
             </p>
         </div>
+        <div class="col-12">
+            <h5 class="">Active Users</h5>
+        </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <a href="{{ route('users.index') }}" class="text-decoration-none">
                 <div class="card">
@@ -51,6 +54,12 @@
             </a>
         </div>
     </div>
+    <div class="col-12 mt-4">
+        <h5 class="">Dormant Users</h5>
+        <p class="mb-4">
+            Verified users that have not created an order
+        </p>
+    </div>
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <a href="{{ route('users.index') }}" class="text-decoration-none">
@@ -58,7 +67,7 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">MRR</p>
+                                <p class="text-sm mb-0 text-capitalize">Slightly Dormant (No orders in 1-4 weeks)</p>
                                 <h4 class="mb-0">{{ $slightlyDormantUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -79,7 +88,7 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">All Users</p>
+                                <p class="text-sm mb-0 text-capitalize">Moderately Dormant (No orders in 1-3 months)</p>
                                 <h4 class="mb-0">{{$moderatelyDormantUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -96,12 +105,11 @@
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <a href="{{ route('users.index', ['filter' => 'active']) }}" class="text-decoration-none">
-
                 <div class="card">
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Active Users</p>
+                                <p class="text-sm mb-0 text-capitalize">Highly Dormant (No orders in 3+ months)</p>
                                 <h4 class="mb-0">{{$highlyDormantUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -122,7 +130,7 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Total Dormant Users</p>
+                                <p class="text-sm mb-0 text-capitalize">Total Dormant Users. Sum of All</p>
                                 <h4 class="mb-0">{{$totalDormantUsers}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -133,6 +141,56 @@
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-2 ps-3">
                         <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-12 mt-4">
+        <h5 class="">Inactive Users</h5>
+        <p class="mb-4">
+            Verified users that have not created an order or created just 1 order and never created another
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <a href="{{ route('users.index') }}" class="text-decoration-none">
+                <div class="card">
+                    <div class="card-header p-2 ps-3">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="text-sm mb-0 text-capitalize">Just 1 Order </p>
+                                <h4 class="mb-0">{{ $getOneTimeUsersCount }}</h4>
+                            </div>
+                            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                                <i class="material-symbols-rounded opacity-10">weekend</i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <a href="{{ route('users.index') }}" class="text-decoration-none">
+                <div class="card">
+                    <div class="card-header p-2 ps-3">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="text-sm mb-0 text-capitalize">Verified but no orders</p>
+                                <h4 class="mb-0">{{ $getVerifiedUsersWithoutOrdersCount }}</h4>
+                            </div>
+                            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                                <i class="material-symbols-rounded opacity-10">weekend</i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
                     </div>
                 </div>
             </a>

@@ -81,24 +81,30 @@ class UserKPIService
         // 1. Slightly Dormant (No orders in 1-4 weeks)
         return User::whereDoesntHave('orders', function ($query) use ($_oneWeekAgo) {
             $query->where('created_at', '>=', $_oneWeekAgo);
-        })->whereHas('orders')->count();
+        })->whereHas('orders', function ($query) {
+            $query->havingRaw('COUNT(*) > 1');
+        })->count();
     }
 
     public function getModeratelyDormantUsersCount()
     {
         $_oneMonthAgo = $this->oneMonthAgo;
-        // 1. Slightly Dormant (No orders in 1-4 weeks)
+        // 2. Moderately Dormant (No orders in 1-4 months)
         return User::whereDoesntHave('orders', function ($query) use ($_oneMonthAgo) {
             $query->where('created_at', '>=', $_oneMonthAgo);
-        })->whereHas('orders')->count();
+        })->whereHas('orders', function ($query) {
+            $query->havingRaw('COUNT(*) > 1');
+        })->count();
     }
 
     public function getHighlyDormantUsersCount()
     {
         $_threeMonthsAgo = $this->threeMonthsAgo;
-        // 1. Slightly Dormant (No orders in 1-4 weeks)
+        // 3. Highly Dormant (No orders in 4+ months)
         return User::whereDoesntHave('orders', function ($query) use ($_threeMonthsAgo) {
             $query->where('created_at', '>=', $_threeMonthsAgo);
-        })->whereHas('orders')->count();
+        })->whereHas('orders', function ($query) {
+            $query->havingRaw('COUNT(*) > 1');
+        })->count();
     }
 }
