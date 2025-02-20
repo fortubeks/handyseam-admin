@@ -27,6 +27,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Business</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Country</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Orders</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Joined</th>
@@ -48,11 +49,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{$user->appSetting->business_name}}</p>
-                                        <p class="text-xs text-secondary mb-0">{{$user->appSetting->business_address}}</p>
+                                        <p class="text-xs font-weight-bold mb-0" data-toggle="tooltip" title="{{$user->appSetting->business_address}}">{{$user->appSetting->business_name}}</p>
                                     </td>
                                     <td class=" text-sm">
                                         <p class="text-xs font-weight-bold mb-0">{{$user->appSetting->business_currency}}</p>
+                                    </td>
+                                    <td class=" text-sm">
+                                        <p class="text-xs font-weight-bold mb-0">{{$user->orders_count}}</p>
                                     </td>
                                     <td class=" text-sm">
                                         <p class="text-xs font-weight-bold mb-0">{{$user->phone}}</p>
