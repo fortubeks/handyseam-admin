@@ -57,7 +57,7 @@
     <div class="col-12 mt-4">
         <h5 class="">Dormant Users</h5>
         <p class="mb-4">
-            Verified users that have not created an order
+            Verified users that created 1 order and never created another or created multiple orders but churned
         </p>
     </div>
     <div class="row">
@@ -67,8 +67,8 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Slightly Dormant (No orders in 1-4 weeks)</p>
-                                <h4 class="mb-0">{{ $slightlyDormantUsersCount }}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Slightly Dormant (Churned)</p>
+                                <h4 class="mb-0">{{ $churnedDormantUsers }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -83,34 +83,13 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <a href="{{ route('users.index') }}" class="text-decoration-none">
-                <div class="card">
-                    <div class="card-header p-2 ps-3">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p class="text-sm mb-0 text-capitalize">Moderately Dormant (No orders in 1-3 months)</p>
-                                <h4 class="mb-0">{{$moderatelyDormantUsersCount}}</h4>
-                            </div>
-                            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                                <i class="material-symbols-rounded opacity-10">person</i>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-2 ps-3">
-                        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <a href="{{ route('users.index', ['filter' => 'active']) }}" class="text-decoration-none">
                 <div class="card">
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Highly Dormant (No orders in 3+ months)</p>
-                                <h4 class="mb-0">{{$highlyDormantUsersCount}}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Highly Dormant (1 order only)</p>
+                                <h4 class="mb-0">{{$inactiveDormantUsers}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">leaderboard</i>
@@ -147,9 +126,9 @@
         </div>
     </div>
     <div class="col-12 mt-4">
-        <h5 class="">Inactive Users</h5>
+        <h5 class="">Unverified Users</h5>
         <p class="mb-4">
-            Verified users that have not created an order or created just 1 order and never created another
+            Unverified users
         </p>
     </div>
     <div class="row">
@@ -160,7 +139,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="text-sm mb-0 text-capitalize">Just 1 Order </p>
-                                <h4 class="mb-0">{{ $getOneTimeUsersCount }}</h4>
+                                <h4 class="mb-0">{{ $getUnverifiedUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -174,14 +153,22 @@
                 </div>
             </a>
         </div>
+    </div>
+    <div class="col-12 mt-4">
+        <h5 class="">Total Users</h5>
+        <p class="mb-4">
+            Sum of all the categories above
+        </p>
+    </div>
+    <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <a href="{{ route('users.index') }}" class="text-decoration-none">
                 <div class="card">
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Verified but no orders</p>
-                                <h4 class="mb-0">{{ $getVerifiedUsersWithoutOrdersCount }}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Total Users </p>
+                                <h4 class="mb-0">{{ $totalUsers }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>

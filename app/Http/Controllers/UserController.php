@@ -34,21 +34,25 @@ class UserController extends Controller
     {
         $userKPIService = new UserKPIService();
 
-        $slightlyDormantUsersCount = $userKPIService->getSlightlyDormantUsersCount();
-        $moderatelyDormantUsersCount = $userKPIService->getModeratelyDormantUsersCount();
-        $highlyDormantUsersCount = $userKPIService->getHighlyDormantUsersCount();
-        $totalDormantUsers = $slightlyDormantUsersCount + $moderatelyDormantUsersCount + $highlyDormantUsersCount;
+        $activeUserCount = $userKPIService->getActiveUsersCount(); // active users
+
+        $churnedDormantUsersCount = $userKPIService->getChurnedDormantUsers(); // 
+        $inactiveDormantUsersCount = $userKPIService->getInactiveDormantUsers(); // inactive
+        $totalDormantUsers = $churnedDormantUsersCount + $inactiveDormantUsersCount;
+
+        $unverifiedUsersCount = $userKPIService->getUnverifiedUsersCount(); // unverified users
+
+        $totalUsers = $totalDormantUsers + $activeUserCount + $unverifiedUsersCount;
 
         return view('material.users.dashboard', [
             'allUsersCount' => $userKPIService->getAllUsersCount(), //all users
             'unverifiedUsersCount' => $userKPIService->getUnverifiedUsersCount(),
-            'slightlyDormantUsersCount' => $slightlyDormantUsersCount, //inactive
-            'moderatelyDormantUsersCount' => $moderatelyDormantUsersCount,
-            'highlyDormantUsersCount' => $highlyDormantUsersCount,
+            'churnedDormantUsersCount' => $churnedDormantUsersCount,
+            'inactiveDormantUsersCount' => $inactiveDormantUsersCount,
             'totalDormantUsers' => $totalDormantUsers,
-            'activeUsersCount' => $userKPIService->getActiveUsersCount(), //active users
-            'getOneTimeUsersCount' => $userKPIService->getOneTimeUsersCount(),
+            'activeUsersCount' => $activeUserCount,
             'getVerifiedUsersWithoutOrdersCount' => $userKPIService->getVerifiedUsersWithoutOrdersCount(),
+            'totalUsers' => $totalUsers,
             'mrr' => $userKPIService->getMrr(),
         ]);
     }

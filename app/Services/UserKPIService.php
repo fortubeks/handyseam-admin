@@ -107,4 +107,24 @@ class UserKPIService
             $query->havingRaw('COUNT(*) > 1');
         })->count();
     }
+
+    public function getChurnedDormantUsers()
+    {
+        //these users have created more than 1 order but havent created any in the last 2 months
+        return User::where('user_type', 'admin')->whereDoesntHave('orders', function ($query) {
+            $query->where('created_at', '>=', Carbon::now()->subMonths(2));
+        })->whereHas('orders', function ($query) {
+            $query->havingRaw('COUNT(*) > 1');
+        })->count();
+    }
+
+    public function getInactiveDormantUsers()
+    {
+        //these users have created only 1 order and have not created any after that
+        return User::where('user_type', 'admin')
+            ->whereHas('orders', function ($query) {
+                $query->havingRaw('COUNT(*) = 1');
+            }, '=', 1)
+            ->count();
+    }
 }
