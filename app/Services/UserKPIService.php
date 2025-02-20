@@ -8,6 +8,19 @@ use Illuminate\Support\Facades\DB;
 
 class UserKPIService
 {
+    private $now;
+    private $oneWeekAgo;
+    private $oneMonthAgo;
+    private $threeMonthsAgo;
+
+    public function __construct()
+    {
+        $this->now = Carbon::now();
+        $this->oneWeekAgo = Carbon::now()->subWeek();
+        $this->oneMonthAgo = Carbon::now()->subMonth();
+        $this->threeMonthsAgo = Carbon::now()->subMonths(3);
+    }
+
     public function getAllUsersCount()
     {
         return User::where('user_type', 'admin')->count();
@@ -60,5 +73,32 @@ class UserKPIService
                 $query->havingRaw('COUNT(*) = 1');
             }, '=', 1)
             ->count();
+    }
+
+    public function getSlightlyDormantUsersCount()
+    {
+        $_oneWeekAgo = $this->oneWeekAgo;
+        // 1. Slightly Dormant (No orders in 1-4 weeks)
+        return User::whereDoesntHave('orders', function ($query) use ($_oneWeekAgo) {
+            $query->where('created_at', '>=', $_oneWeekAgo);
+        })->whereHas('orders')->count();
+    }
+
+    public function getModeratelyDormantUsersCount()
+    {
+        $_oneMonthAgo = $this->oneMonthAgo;
+        // 1. Slightly Dormant (No orders in 1-4 weeks)
+        return User::whereDoesntHave('orders', function ($query) use ($_oneMonthAgo) {
+            $query->where('created_at', '>=', $_oneMonthAgo);
+        })->whereHas('orders')->count();
+    }
+
+    public function getHighlyDormantUsersCount()
+    {
+        $_threeMonthsAgo = $this->threeMonthsAgo;
+        // 1. Slightly Dormant (No orders in 1-4 weeks)
+        return User::whereDoesntHave('orders', function ($query) use ($_threeMonthsAgo) {
+            $query->where('created_at', '>=', $_threeMonthsAgo);
+        })->whereHas('orders')->count();
     }
 }

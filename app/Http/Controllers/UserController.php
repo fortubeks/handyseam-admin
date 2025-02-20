@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserKPIService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,27 @@ class UserController extends Controller
         }
         $title = 'All Users';
         return view('material.users.index', compact('users', 'title'));
+    }
+
+    public function dashboard()
+    {
+        $userKPIService = new UserKPIService();
+
+        $slightlyDormantUsersCount = $userKPIService->slightlyDormantUsersCount();
+        $moderatelyDormantUsersCount = $userKPIService->moderatelyDormantUsersCount();
+        $highlyDormantUsersCount = $userKPIService->highlyDormantUsersCount();
+        $totalDormantUsers = $slightlyDormantUsersCount + $moderatelyDormantUsersCount + $highlyDormantUsersCount;
+
+        return view('material.users.dashboard', [
+            'allUsersCount' => $userKPIService->getAllUsersCount(), //all users
+            'unverifiedUsersCount' => $userKPIService->getUnverifiedUsersCount(),
+            'slightlyDormantUsersCount' => $slightlyDormantUsersCount, //inactive
+            'moderatelyDormantUsersCount' => $moderatelyDormantUsersCount,
+            'highlyDormantUsersCount' => $highlyDormantUsersCount,
+            'totalDormantUsers' => $totalDormantUsers,
+            'activeUsersCount' => $userKPIService->getActiveUsersCount(), //active users
+            'mrr' => $userKPIService->getMrr(),
+        ]);
     }
 
     public function search(Request $request)

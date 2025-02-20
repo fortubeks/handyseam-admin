@@ -12,6 +12,7 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
+    Route::get('user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('user/search', [UserController::class, 'search'])->name('user.search');
 });
 Route::middleware('auth')->group(function () {
