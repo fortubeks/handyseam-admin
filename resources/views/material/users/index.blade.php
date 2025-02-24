@@ -30,7 +30,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Orders</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Order Date</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Login</th>
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                             </thead>
@@ -72,7 +72,7 @@
                                         @endif
                                     </td>
                                     <td class="align-middle text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{$user->orders->latest()->first()->created_at ?? 'No orders'}}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{$user->last_login}}</p>
                                     </td>
                                     <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
