@@ -72,7 +72,7 @@
                                         @endif
                                     </td>
                                     <td class="align-middle text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{$user->orders->latest()->created_at ?? 'No orders'}}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{$user->orders->latest()->first()->created_at ?? 'No orders'}}</p>
                                     </td>
                                     <td class="align-middle">
                                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

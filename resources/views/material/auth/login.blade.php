@@ -43,7 +43,7 @@
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
                     <div class="container-fluid ps-2 pe-0">
-                        <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{{url('pages/dashboard.html')}}">
+                        <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{{url('#')}}">
                             {{env('APP_NAME')}} Admin
                         </a>
                         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,7 +144,7 @@
                                     @csrf
                                     <div class="input-group input-group-outline my-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control">
+                                        <input type="email" name="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="email">
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <label class="form-label">Password</label>
@@ -197,16 +197,26 @@
     <!--   Core JS Files   -->
     <script src="{{url('assets/js/core/popper.min.js')}}"></script>
     <script src="{{url('assets/js/core/bootstrap.min.js')}}"></script>
-    <script src="{{url('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{url('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
+    <!-- <script src="{{url('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{url('assets/js/plugins/smooth-scrollbar.min.js')}}"></script> -->
+
     <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
+        function focused(el) {
+            if (el.parentElement.classList.contains('input-group')) {
+                el.parentElement.classList.add('focused');
             }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
+
+        // when input is focused remove focused class for style
+        function defocused(el) {
+            if (el.parentElement.classList.contains('input-group')) {
+                el.parentElement.classList.remove('focused');
+            }
+        }
+        window.addEventListener('load', function() {
+            // when input is focused add focused class for style
+
+        });
     </script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

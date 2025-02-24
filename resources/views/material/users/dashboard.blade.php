@@ -126,9 +126,9 @@
         </div>
     </div>
     <div class="col-12 mt-4">
-        <h5 class="">Unverified Users</h5>
+        <h5 class="">Inactive Users</h5>
         <p class="mb-4">
-            Unverified users
+            Verified but no orders
         </p>
     </div>
     <div class="row">
@@ -138,8 +138,8 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Unverified users </p>
-                                <h4 class="mb-0">{{ $unverifiedUsersCount }}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Total Inactive Users </p>
+                                <h4 class="mb-0">{{ $inactiveUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -155,9 +155,9 @@
         </div>
     </div>
     <div class="col-12 mt-4">
-        <h5 class="">Inactive Users</h5>
+        <h5 class="">Unverified Users</h5>
         <p class="mb-4">
-            Verified but no orders
+            Unverified users
         </p>
     </div>
     <div class="row">
@@ -167,8 +167,8 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Total Inactive Users </p>
-                                <h4 class="mb-0">{{ $inactiveUsersCount }}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Unverified users </p>
+                                <h4 class="mb-0">{{ $unverifiedUsersCount }}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -218,15 +218,12 @@
 
 <script>
     window.addEventListener('load', function() {
-
-    });
-</script>
-<script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-        var options = {
-            damping: '0.5'
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
+    });
 </script>
