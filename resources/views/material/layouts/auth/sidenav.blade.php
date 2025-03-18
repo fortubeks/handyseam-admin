@@ -38,6 +38,18 @@
                             </a>
                         </li>
                         <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{ route('users.index', ['filter' => 'unverified']) }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> Active users </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{ route('users.index', ['filter' => 'unverified']) }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> Active subscriptions </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
                             <a class="nav-link text-dark " href="{{ route('users.index', ['filter' => 'churned']) }}">
                                 <span class="sidenav-mini-icon"> N </span>
                                 <span class="sidenav-normal  ms-1  ps-1"> Churned Users </span>
