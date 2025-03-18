@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Subscription;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -43,16 +44,10 @@ class UserKPIService
 
     public function getMrr()
     {
-        // $mrr = Subscription::join('packages', 'subscriptions.package_id', '=', 'packages.id')
-        //     ->where('subscriptions.package_id', 2)
-        //     ->where('subscriptions.expires_at', '>', Carbon::now())
-        //     ->sum('packages.amount');
-        $mrr = DB::table('subscriptions as s')
-            ->join('packages as p', 's.package_id', '=', 'p.id')
-            ->where('s.package_id', 2)
-            ->where('s.expires_at', '>', now())
-            ->select(DB::raw('SUM(p.amount) AS MRR'))
-            ->value('MRR');
+        $mrr = Subscription::join('packages', 'subscriptions.package_id', '=', 'packages.id')
+            ->where('subscriptions.package_id', 2)
+            ->where('subscriptions.expires_at', '>', Carbon::now())
+            ->sum('packages.amount');
         return $mrr;
     }
 

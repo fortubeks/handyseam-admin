@@ -33,7 +33,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <a href="{{ route('users.index') }}" class="text-decoration-none">
+            <a href="{{ route('users.index', ['filter' => 'active']) }}" class="text-decoration-none">
                 <div class="card">
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
@@ -62,7 +62,7 @@
     </div>
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <a href="{{ route('users.index') }}" class="text-decoration-none">
+            <a href="{{ route('users.index', ['filter' => 'churned']) }}" class="text-decoration-none">
                 <div class="card">
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
@@ -83,7 +83,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <a href="{{ route('users.index', ['filter' => 'active']) }}" class="text-decoration-none">
+            <a href="{{ route('users.index', ['filter' => 'highly-dormant']) }}" class="text-decoration-none">
                 <div class="card">
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">

@@ -51,47 +51,6 @@ class User extends Authenticatable
         ];
     }
 
-    // protected static function boot()
-    // {
-    //     //on load get the user status by running a number of if statements
-    //     parent::boot();
-    //     static::retrieved(function ($user) {
-    //         if ($user->email_verified_at == null) {
-    //             $user->status = 'Unverified';
-    //             return;
-    //         }
-    //         if (
-    //             $user->whereHas('orders', function ($query) {
-    //                 $query->where('created_at', '>=', Carbon::now()->subMonth());
-    //             }, '>', 5)
-    //             ->count() > 0
-    //         ) {
-    //             $user->status = 'Active';
-    //             return;
-    //         }
-    //         if (
-    //             $user->whereNotNull('email_verified_at')
-    //             ->where('user_type', 'admin')
-    //             ->whereDoesntHave('orders')
-    //             ->count() > 0
-    //         ) {
-    //             $user->status = 'Verified Without Orders';
-    //             return;
-    //         }
-    //         if (
-    //             $user->whereNotNull('email_verified_at')
-    //             ->where('user_type', 'admin')
-    //             ->whereHas('orders', function ($query) {
-    //                 $query->havingRaw('COUNT(*) = 1');
-    //             }, '=', 1)
-    //             ->count() > 0
-    //         ) {
-    //             $user->status = 'One Time Order Only';
-    //             return;
-    //         }
-    //     });
-    // }
-
     public function getStatusAttribute()
     {
         // Check if the email is verified
@@ -115,6 +74,15 @@ class User extends Authenticatable
         }
 
         return 'Other';
+    }
+
+    public function getTotalRevenueFromUser()
+    {
+        return $this->subscriptions()
+            ->where('package_id', 2)
+            ->with('package')
+            ->get()
+            ->sum(fn($sub) => $sub->package->amount);
     }
 
     public function orders()

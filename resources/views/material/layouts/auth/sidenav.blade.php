@@ -19,10 +19,44 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" href="{{route('user.dashboard')}}">
-                    <i class="material-symbols-rounded opacity-5">table_view</i>
-                    <span class="nav-link-text ms-1">Users</span>
+                <a data-bs-toggle="collapse" href="#users" class="nav-link text-dark" aria-controls="projectsExamples" role="button" aria-expanded="true">
+                    <i class="material-symbols-rounded opacity-5 {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">widgets</i>
+                    <span class="nav-link-text ms-1 ps-1">Users</span>
                 </a>
+                <div class="collapse" id="users" style="">
+                    <ul class="nav ">
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{route('user.dashboard')}}">
+                                <span class="sidenav-mini-icon"> G </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> Dashboard </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{route('users.index')}}">
+                                <span class="sidenav-mini-icon"> T </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> All Users </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{ route('users.index', ['filter' => 'churned']) }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> Churned Users </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{ route('users.index', ['filter' => 'highly-dormant']) }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> Dormant Users </span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link text-dark " href="{{ route('users.index', ['filter' => 'unverified']) }}">
+                                <span class="sidenav-mini-icon"> N </span>
+                                <span class="sidenav-normal  ms-1  ps-1"> Unverified users </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" href="#">

@@ -75,7 +75,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{$user->last_login}}</p>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        <a href="{{route('users.show',$user->id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Show/Edit user">
                                             Show/Edit
                                         </a>
                                     </td>
