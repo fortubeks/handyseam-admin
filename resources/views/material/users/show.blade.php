@@ -116,7 +116,7 @@
                                 <span class="text-xs">#MS-415646</span>
                             </div>
                             <div class="d-flex align-items-center font-weight-bold text-sm">
-                                {{ $latestOrder?->created_at?->format('d F Y') ?? 'N/A' }}
+                                {{$latestOrder ? $latestOrder->created_at->format('d F Y') : 'N/A' }}
                             </div>
                         </li>
                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -125,7 +125,7 @@
                                 <span class="text-xs">#MS-415646</span>
                             </div>
                             <div class="d-flex align-items-center font-weight-bold text-sm">
-                                {{ $user->last_login ? $user->last_login : $latestOrder->created_at->format('d F Y') }}
+                                {{ $user->last_login ? $user->last_login : 'N/A' }}
                             </div>
                         </li>
                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
