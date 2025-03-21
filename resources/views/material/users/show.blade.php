@@ -194,7 +194,7 @@
                                 <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-symbols-rounded text-lg">expand_less</i></button>
                                 <div class="d-flex flex-column">
                                     <h6 class="mb-1 text-dark text-sm">{{ $subscription->package->name }}</h6>
-                                    <span class="text-xs">{{ $subscription->created_at->format('d F Y, \a\t h:i A') }}</span>
+                                    <span class="text-xs">{{ $subscription->created_at->format('d F Y') }}</span>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">

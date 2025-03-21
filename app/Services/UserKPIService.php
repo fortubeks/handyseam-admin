@@ -32,6 +32,11 @@ class UserKPIService
         return User::whereNull('email_verified_at')->where('user_type', 'admin')->count();
     }
 
+    public function getVerifiedUsersCount()
+    {
+        return User::whereNotNull('email_verified_at',)->where('user_type', 'admin')->count();
+    }
+
     public function getActiveUsersCount()
     {
         return User::whereNotNull('email_verified_at')

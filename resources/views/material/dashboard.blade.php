@@ -24,7 +24,7 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-2 ps-3">
-                        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+                        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+{{$mrr/2500}} </span>paying users</p>
                     </div>
                 </div>
             </a>
@@ -35,8 +35,8 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">All Users</p>
-                                <h4 class="mb-0">{{$allUsersCount}}</h4>
+                                <p class="text-sm mb-0 text-capitalize">All Verified Users</p>
+                                <h4 class="mb-0">{{$verifiedUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">person</i>
@@ -58,7 +58,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="text-sm mb-0 text-capitalize">Active Users</p>
-                                <h4 class="mb-0">{{$verifiedWithOrdersCount}}</h4>
+                                <h4 class="mb-0">{{$activeUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">leaderboard</i>
@@ -78,8 +78,8 @@
                     <div class="card-header p-2 ps-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <p class="text-sm mb-0 text-capitalize">Inactive Users</p>
-                                <h4 class="mb-0">{{$verifiedWithoutOrdersCount}}</h4>
+                                <p class="text-sm mb-0 text-capitalize">Churned Users</p>
+                                <h4 class="mb-0">{{$churnedUsersCount}}</h4>
                             </div>
                             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                                 <i class="material-symbols-rounded opacity-10">weekend</i>
