@@ -14,6 +14,10 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Customer')->withTrashed();
     }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
     public function invoice()
     {
         return $this->hasOne('App\Models\Invoice');

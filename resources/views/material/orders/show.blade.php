@@ -150,7 +150,7 @@
                             <h6 class="mb-0">Last 5 Orders</h6>
                         </div>
                         <div class="col-6 text-end">
-                            <a href="{{url('orders?user_id='.$user->id)}}" class="btn btn-outline-primary btn-sm mb-0">View All</a>
+                            <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
                         </div>
                     </div>
                 </div>

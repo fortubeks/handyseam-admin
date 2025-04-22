@@ -71,6 +71,12 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-dark" href="{{route('orders.index')}}">
+                    <i class="material-symbols-rounded opacity-5">shopping_cart</i>
+                    <span class="nav-link-text ms-1">Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-dark" href="#">
                     <i class="material-symbols-rounded opacity-5">receipt_long</i>
                     <span class="nav-link-text ms-1">Send Emails</span>
