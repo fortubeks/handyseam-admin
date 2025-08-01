@@ -75,5 +75,8 @@ function getModelList($model)
     if ($model == 'customers') {
         $model_list = \App\Models\Customer::all();
     }
+    if ($model == 'packages') {
+        $model_list = \App\Models\Package::all();
+    }
     return $model_list;
 }

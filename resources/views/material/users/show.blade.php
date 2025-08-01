@@ -187,8 +187,13 @@
                 <div class="card-body pt-4 p-3">
                     <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
                     <ul class="list-group">
+                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addSubscriptionModal"><i class="material-symbols-rounded text-lg">expand_less</i>Add Subscription</button>
+                            </div>
+                        </li>
                         @foreach($lastFiveSubscriptions as $subscription)
-
                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                             <div class="d-flex align-items-center">
                                 <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-symbols-rounded text-lg">expand_less</i></button>
@@ -209,6 +214,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="addSubscriptionModal" tabindex="-1" aria-labelledby="addHotelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCartModalLabel">Add new subscription for this user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('subscriptions.store') }}">
+                    @csrf
+                    <select class="form-select mb-3" name="subscription_package_id">
+                        <option value="">Select Subscription</option>
+                        @foreach(getModelList('packages') as $package)
+                        <option value="{{ $package->id }}">{{ $package->name }} - {{ formatCurrency($package->amount) }}</option>
+                        @endforeach
+                    </select>
+
+                    <input type="date" name="expires_at" class="form-control mb-3" placeholder="Expiry" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <input type="hidden" name="user_id" value="{{ $user->id }}">
+
+                <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 <script>
