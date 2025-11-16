@@ -111,11 +111,21 @@ class UserKPIService
     public function getChurnedDormantUsers()
     {
         //these users have created more than 1 order but havent created any in the last 2 months
-        return User::where('user_type', 'admin')->whereDoesntHave('orders', function ($query) {
-            $query->where('created_at', '>=', Carbon::now()->subMonths(2));
-        })->whereHas('orders', function ($query) {
-            $query->havingRaw('COUNT(*) > 1');
-        })->count();
+        // return User::where('user_type', 'admin')->whereDoesntHave('orders', function ($query) {
+        //     $query->where('created_at', '>=', Carbon::now()->subMonths(2));
+        // })->whereHas('orders', function ($query) {
+        //     $query->havingRaw('COUNT(*) > 1');
+        // })->count();
+        return User::where('user_type', 'admin')
+            ->whereDoesntHave('orders', function ($query) {
+                $query->where('created_at', '>=', Carbon::now()->subMonths(2));
+            })
+            ->whereHas('orders', function ($query) {
+                $query->select('user_id')
+                    ->groupBy('user_id')
+                    ->havingRaw('COUNT(*) > 1');
+            })
+            ->count();
     }
 
     public function getInactiveDormantUsers()
