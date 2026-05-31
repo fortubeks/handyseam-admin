@@ -172,41 +172,116 @@
             </div>
         </div>
         <div class="col-md-4 mt-4">
+            @php
+            $recentSubscriptionsCount = $lastFiveSubscriptions->count();
+            @endphp
             <div class="card h-100 mb-4">
                 <div class="card-header pb-0 px-3">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="mb-0">Subscriptions</h6>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+                        <div>
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="material-symbols-rounded me-2 text-lg text-dark">workspace_premium</i>
+                                <h6 class="mb-0">Recent Subscriptions</h6>
+                            </div>
+                            <p class="text-sm text-muted mb-0">Latest package activity for this user since {{$user->created_at->format('d F Y')}}</p>
                         </div>
-                        <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-                            <i class="material-symbols-rounded me-2 text-lg">date_range</i>
-                            <small>since {{$user->created_at->format('d F Y')}}</small>
-                        </div>
+                        <button class="btn btn-outline-dark btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#addSubscriptionModal" data-subscription-action="create">
+                            <i class="material-symbols-rounded text-sm align-middle">add</i>
+                            <span class="ms-1">Add Subscription</span>
+                        </button>
                     </div>
                 </div>
                 <div class="card-body pt-4 p-3">
-                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-1">Last 5 entries</h6>
+                            <p class="text-xs text-muted mb-0">Use this list to spot expired plans and renew quickly.</p>
+                        </div>
+                        <span class="badge bg-gradient-light text-dark">{{$recentSubscriptionsCount}} recent</span>
+                    </div>
                     <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#addSubscriptionModal"><i class="material-symbols-rounded text-lg">expand_less</i>Add Subscription</button>
-                            </div>
-                        </li>
-                        @foreach($lastFiveSubscriptions as $subscription)
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-symbols-rounded text-lg">expand_less</i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">{{ $subscription->package->name }}</h6>
-                                    <span class="text-xs">{{ $subscription->created_at->format('d F Y') }}</span>
+                        @forelse($lastFiveSubscriptions as $subscription)
+                        @php
+                        $expiresAt = \Illuminate\Support\Carbon::parse($subscription->expires_at);
+                        $isExpired = $expiresAt->isPast();
+                        $daysLeft = now()->diffInDays($expiresAt, false);
+                        $isExpiringSoon = !$isExpired && $daysLeft <= 7;
+                            $statusClass=$isExpired ? 'bg-gradient-danger' : ($isExpiringSoon ? 'bg-gradient-warning' : 'bg-gradient-success' );
+                            $statusIcon=$isExpired ? 'gpp_bad' : ($isExpiringSoon ? 'schedule' : 'verified' );
+                            $statusText=$isExpired ? 'Expired' : ($isExpiringSoon ? 'Expiring soon' : 'Active' );
+                            @endphp
+                            <li class="list-group-item border-0 px-0 mb-3 border-radius-lg">
+                            <div class="border border-radius-lg p-3 h-100">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <div class="icon icon-shape icon-sm shadow {{$statusClass}} text-center border-radius-md me-3">
+                                            <i class="material-symbols-rounded opacity-10">{{$statusIcon}}</i>
+                                        </div>
+                                        <div>
+                                            <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+                                                <h6 class="mb-0 text-sm">{{ $subscription->package->name }}</h6>
+                                                <span class="badge {{$isExpired ? 'bg-gradient-danger' : ($isExpiringSoon ? 'bg-gradient-warning text-dark' : 'bg-gradient-success')}}">{{$statusText}}</span>
+                                            </div>
+                                            <p class="text-sm mb-0 text-dark font-weight-bold">{{ formatCurrency($subscription->package->amount) }}</p>
+                                        </div>
+                                    </div>
+                                    @if($isExpired || $isExpiringSoon)
+                                    <button
+                                        class="btn btn-outline-dark btn-sm mb-0"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addSubscriptionModal"
+                                        data-subscription-action="renew"
+                                        data-package-id="{{ $subscription->package_id }}"
+                                        data-package-name="{{ $subscription->package->name }}"
+                                        data-expires-at="{{ $expiresAt->format('Y-m-d') }}">Renew</button>
+                                    @endif
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="bg-gray-100 border-radius-md px-3 py-2 h-100">
+                                            <span class="d-flex align-items-center text-xs text-muted mb-1">
+                                                <i class="material-symbols-rounded text-sm me-1">calendar_today</i>
+                                                Started
+                                            </span>
+                                            <p class="text-sm text-dark font-weight-bold mb-0">{{ $subscription->created_at->format('d M Y') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-gray-100 border-radius-md px-3 py-2 h-100">
+                                            <span class="d-flex align-items-center text-xs text-muted mb-1">
+                                                <i class="material-symbols-rounded text-sm me-1">event_available</i>
+                                                Expires
+                                            </span>
+                                            <p class="text-sm text-dark font-weight-bold mb-0">{{ $expiresAt->format('d M Y') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="text-xs text-muted">
+                                        @if($isExpired)
+                                        Expired {{ abs($daysLeft) }} day{{ abs($daysLeft) === 1 ? '' : 's' }} ago
+                                        @elseif($daysLeft === 0)
+                                        Expires today
+                                        @else
+                                        {{ $daysLeft }} day{{ $daysLeft === 1 ? '' : 's' }} remaining
+                                        @endif
+                                    </span>
+                                    <span class="text-xs font-weight-bold {{$isExpired ? 'text-danger' : ($isExpiringSoon ? 'text-warning' : 'text-success')}}">{{$statusText}}</span>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                + {{formatCurrency($subscription->package->amount)}}
-                            </div>
-                        </li>
-                        @endforeach
+                            </li>
+                            @empty
+                            <li class="list-group-item border-0 px-0">
+                                <div class="border border-dashed border-radius-lg p-4 text-center">
+                                    <div class="icon icon-shape icon-md bg-gray-100 shadow text-center border-radius-lg mx-auto mb-3">
+                                        <i class="material-symbols-rounded opacity-10 text-dark">subscriptions</i>
+                                    </div>
+                                    <h6 class="text-sm mb-1">No subscriptions yet</h6>
+                                    <p class="text-xs text-muted mb-3">Create the first subscription to start tracking package history for this user.</p>
+                                    <button class="btn btn-outline-dark btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#addSubscriptionModal" data-subscription-action="create">Add First Subscription</button>
+                                </div>
+                            </li>
+                            @endforelse
                     </ul>
                 </div>
             </div>
@@ -218,27 +293,28 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteCartModalLabel">Add new subscription for this user</h5>
+                <h5 class="modal-title" id="subscriptionModalTitle">Add new subscription for this user</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('subscriptions.store') }}">
+                <form method="POST" action="{{ route('subscriptions.store') }}" id="addSubscriptionForm">
                     @csrf
-                    <select class="form-select mb-3" name="subscription_package_id">
+                    <p class="text-sm text-muted mb-3" id="subscriptionModalDescription">Choose a package and set the next expiry date for this user.</p>
+                    <select class="form-select mb-3" name="subscription_package_id" id="subscriptionPackageSelect">
                         <option value="">Select Subscription</option>
                         @foreach(getModelList('packages') as $package)
                         <option value="{{ $package->id }}">{{ $package->name }} - {{ formatCurrency($package->amount) }}</option>
                         @endforeach
                     </select>
 
-                    <input type="date" name="expires_at" class="form-control mb-3" placeholder="Expiry" required>
+                    <input type="date" name="expires_at" class="form-control mb-3" id="subscriptionExpiryInput" placeholder="Expiry" required>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
 
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary" id="subscriptionSubmitButton">Create Subscription</button>
                 </form>
             </div>
         </div>
@@ -248,6 +324,50 @@
 
 <script>
     window.addEventListener('load', function() {
+        const subscriptionModal = document.getElementById('addSubscriptionModal');
+        const subscriptionForm = document.getElementById('addSubscriptionForm');
+        const modalTitle = document.getElementById('subscriptionModalTitle');
+        const modalDescription = document.getElementById('subscriptionModalDescription');
+        const packageSelect = document.getElementById('subscriptionPackageSelect');
+        const expiryInput = document.getElementById('subscriptionExpiryInput');
+        const submitButton = document.getElementById('subscriptionSubmitButton');
 
+        if (!subscriptionModal || !subscriptionForm || !modalTitle || !modalDescription || !packageSelect || !expiryInput || !submitButton) {
+            return;
+        }
+
+        const getNextExpiryDate = function(baseDate) {
+            const nextDate = new Date(baseDate);
+            nextDate.setMonth(nextDate.getMonth() + 1);
+
+            if (Number.isNaN(nextDate.getTime())) {
+                return '';
+            }
+
+            return nextDate.toISOString().split('T')[0];
+        };
+
+        subscriptionModal.addEventListener('show.bs.modal', function(event) {
+            const trigger = event.relatedTarget;
+            const action = trigger?.getAttribute('data-subscription-action') || 'create';
+            const packageId = trigger?.getAttribute('data-package-id') || '';
+            const packageName = trigger?.getAttribute('data-package-name') || 'this package';
+            const expiresAt = trigger?.getAttribute('data-expires-at') || '';
+
+            subscriptionForm.reset();
+            packageSelect.value = '';
+            expiryInput.value = '';
+            modalTitle.textContent = 'Add new subscription for this user';
+            modalDescription.textContent = 'Choose a package and set the next expiry date for this user.';
+            submitButton.textContent = 'Create Subscription';
+
+            if (action === 'renew') {
+                packageSelect.value = packageId;
+                expiryInput.value = getNextExpiryDate(expiresAt || new Date().toISOString().split('T')[0]);
+                modalTitle.textContent = 'Renew subscription';
+                modalDescription.textContent = 'Renew ' + packageName + ' and confirm the next expiry date for this user.';
+                submitButton.textContent = 'Renew Subscription';
+            }
+        });
     });
 </script>
