@@ -50,7 +50,7 @@ class UserKPIService
     public function getMrr()
     {
         $mrr = Subscription::join('packages', 'subscriptions.package_id', '=', 'packages.id')
-            ->where('subscriptions.package_id', 2)
+            ->where('packages.name', '!=', 'Free')
             ->where('subscriptions.expires_at', '>', Carbon::now())
             ->sum('packages.amount');
         return $mrr;

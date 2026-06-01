@@ -89,8 +89,8 @@ class UserController extends Controller
             'subscriptions.package'
         ])->withCount('orders')->findOrFail($user->id);
 
-        // Get all the user's paid subscriptions
-        $paidSubscriptions = $user->subscriptions->where('package_id', 2);
+        // Get all the user's paid subscriptions (any non-Free package)
+        $paidSubscriptions = $user->subscriptions->filter(fn ($s) => $s->package?->name !== 'Free');
 
         $ltv = $this->getUserLTV($paidSubscriptions);
 
